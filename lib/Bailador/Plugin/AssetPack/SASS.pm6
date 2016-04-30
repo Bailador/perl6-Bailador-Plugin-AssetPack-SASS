@@ -10,7 +10,7 @@ method install {
     $sass.stderr.tap: -> $v { $*ERR.print: $v };
     $sass.start;
 
-    get rx{ ^ '/assets/css/' (.+) $ } => sub ($name) {
+    get rx{ ^ '/assets/sass/' (.+) $ } => sub ($name) {
         my $file = $*SPEC.catdir('assets', 'sass', $name).IO;
         return status 404 unless .extension eq 'css' and .f and .r given $file;
         content_type 'text/css';

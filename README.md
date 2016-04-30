@@ -31,7 +31,7 @@ http://sass-lang.com/install
 ```
 
 Starts `sass` watcher and creates a route for delivering CSS files from
-`/assets/css/*` URL, where the filename (and directory structure) from
+`/assets/sass/*` URL, where the filename (and directory structure) from
 `assets/sass` directory is preserved, except you'd refer to the file by
 its `.css` extension. Attempting to access files with other extensions will
 result in 404s.
