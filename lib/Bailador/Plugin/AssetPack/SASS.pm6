@@ -1,4 +1,4 @@
-unit class Bailador::Plugin::AssetPack::SASS;
+unit class Bailador::Plugin::AssetPack::SASS:ver<1.001001>;
 
 use Bailador;
 
