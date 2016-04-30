@@ -3,12 +3,17 @@ unit class Bailador::Plugin::AssetPack::SASS;
 use Bailador;
 
 method install {
-    get rx{ ^ '/assets/' (.+) } => sub ($asset) {
-        my $file = $*SPEC.catdir: 'assets', $*SPEC.splitdir($asset)
-            .grep({ $_ ~~ $*SPEC.curupdir });
+    my $sass = Proc::Async.new: 'sass',  '--style', 'compressed',
+        '--watch', $*SPEC.catdir('assets', 'sass');
 
-        return status 404 unless $file.IO.f;
-        content_type $MIME.type($file.IO.extension) // 'application/octet-stream';
+    $sass.stdout.tap: -> $v { $*OUT.print: $v };
+    $sass.stderr.tap: -> $v { $*ERR.print: $v };
+    $sass.start;
+
+    get rx{ ^ '/assets/sass/' (.+) $ } => sub ($name) {
+        my $file = $*SPEC.catdir('assets', 'sass', $name).IO;
+        return status 404 unless .extension eq 'css' and .f and .r given $file;
+        content_type 'text/css';
         return $file.IO.slurp: :bin;
     };
 }
